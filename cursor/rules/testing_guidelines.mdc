@@ -48,6 +48,7 @@ Refer to language-specific guidelines (e.g., `go_guideline.mdc`) for additional,
 
 1.  **Purpose & Scope:**
     *   Unit tests MUST test individual components (functions, structs, methods) in isolation.
+    *   Private functions (or methods, depending on the language) SHOULD NOT be tested directly. Focus on testing the public API of a module or component, as this is what consumers of the code will interact with. If a private function's logic is complex and warrants testing, consider if it should be extracted into its own component with a public API, or if its behavior can be adequately tested through the existing public interface of its containing module/class.
 
 2.  **Dependency Management:**
     *   ALL external dependencies (Databases, external APIs, other services/modules) MUST be mocked or stubbed.
