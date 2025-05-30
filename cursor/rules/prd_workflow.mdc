@@ -79,6 +79,7 @@ This rule MANDATES the workflow for implementing features from a Product Require
 9.  **Prepare for Pull/Merge Request (PR/MR):**
     *   When all tasks are 'Completed' and all testing requirements from `.cursor/rules/testing_guidelines.mdc` are met for the branch, inform user.
     *   Advise: "Feature branch `feature/[feature-name-slug]` for PRD `[feature_name]_prd.md` is complete and tests pass (per `.cursor/rules/testing_guidelines.mdc`). Ready for PR/MR to `[target_branch]`."
+    *   If the project remote is on github.com, create the PR using the `gh` command line tool. The base branch is usually `master`.
 
 10. **Assist with PR/MR Description:**
     *   **Instruction:** Offer to draft PR/MR description (summary, PRD link, task link/summary, decision log refs).
