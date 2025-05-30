@@ -1,0 +1,91 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+This rule MANDATES the workflow for implementing features from a Product Requirements Document (PRD). Your goal: transform the PRD into working software via analysis, planning, Git-managed iterative development, and clear user communication.
+
+**Phase 0: Setup and Initial Git Context**
+
+0.  **Advise on Feature Branch Creation:**
+    *   Before starting PRD work, advise user to create a dedicated Git feature branch (e.g., `feature/[feature-name-slug]`) from the main development branch. All PRD work occurs on this branch.
+    *   Confirm branch status with user or assist if permitted by `project_guidelines.mdc`.
+
+**Phase 1: PRD Ingestion and Comprehension**
+
+1.  **Locate and Parse PRD:**
+    *   If PRD location unknown, request from user.
+    *   Read and thoroughly analyze the PRD. (Refer to `example_feature_prd.md` for structure if needed.)
+
+2.  **Extract Key Information & Identify Gaps:**
+    *   List: key features, requirements (functional/non-functional), user stories, acceptance criteria, constraints.
+    *   **Output for User:**
+        *   Concise summary of your PRD understanding.
+        *   List of ambiguities, contradictions, or missing information needing user clarification.
+
+**Phase 2: Collaborative Clarification**
+
+3.  **Engage User for Clarification:**
+    *   Present your summary and questions to the user.
+    *   Request specific details, decisions, or assets.
+    *   Update understanding based on feedback. Resolve critical questions before planning.
+
+**Phase 3: Task Breakdown and Planning**
+
+4.  **Decompose PRD into Actionable Tasks:**
+    *   Break down PRD project/feature into smaller development tasks (frontend, backend, tests, docs, etc.).
+    *   Briefly outline implementation steps per task.
+
+5.  **Identify Codebase Impact:**
+    *   Analyze existing codebase for affected/new files/modules, following project conventions.
+
+6.  **Create/Update Task Tracking Document:**
+    *   **Instruction:** For the PRD, create/update its task tracking file (e.g., `prds/[feature_name]/[feature_name]_prd_task_tracking.md`).
+    *   **Content:** Populate with tasks (ID, Description, Status, Dependencies, Notes). Refer to `example_feature_prd_task_tracking.md` for format.
+    *   Present plan to user for review, reminding about the feature branch.
+
+**Phase 4: Iterative Implementation and Delivery (Per Task on Feature Branch)**
+
+7.  **Process Tasks (Sequentially or as Prioritized):**
+    For each task:
+    *   Announce task start (e.g., "Starting Task T[X]: [Description] from `[feature_name]_prd_task_tracking.md` on branch `feature/[feature-name-slug]`)."
+    *   **Code Generation:** Adhere to `project_guidelines.mdc`, coding styles, and best practices.
+    *   **Test Generation:** Follow `.cursor/rules/testing_guidelines.mdc` (cover functionality, meet acceptance criteria, all relevant tests pass).
+    *   **Code Documentation:** Add clear comments where purpose isn't obvious.
+    *   **Commit Work:** When task/sub-part is complete and ALL testing requirements from `.cursor/rules/testing_guidelines.mdc` are met, suggest commit.
+        *   **Instruction: Formulate Commit Message:** Clear, concise, references Task ID/User Story (e.g., `feat(profile): Implement view (T1, US-001)`).
+        *   Offer to commit if permitted; otherwise, provide message/files to user.
+    *   **Update Task Tracker:** Mark task 'In Progress' then 'Completed' (post-implementation, passing tests per `.cursor/rules/testing_guidelines.mdc`, and commit). Add notes.
+
+8.  **Project Documentation Updates (As Needed):**
+    *   Note/draft updates to `README.md` or other project docs for significant changes.
+
+**Phase 5: Review, Feedback, and Iteration (Leading to Pull/Merge Request)**
+
+9.  **Prepare for Pull/Merge Request (PR/MR):**
+    *   When all tasks are 'Completed' and all testing requirements from `.cursor/rules/testing_guidelines.mdc` are met for the branch, inform user.
+    *   Advise: "Feature branch `feature/[feature-name-slug]` for PRD `[feature_name]_prd.md` is complete and tests pass (per `.cursor/rules/testing_guidelines.mdc`). Ready for PR/MR to `[target_branch]`."
+
+10. **Assist with PR/MR Description:**
+    *   **Instruction:** Offer to draft PR/MR description (summary, PRD link, task link/summary, decision log refs).
+    *   Provide draft to user.
+
+11. **Post-Review Feedback Loop:**
+    *   If PR/MR review yields feedback: Re-open/create tasks, make changes on branch (per step 7), update user.
+
+**Phase 6: Post-Merge Activities**
+
+12. **Post-Merge Documentation Updates:**
+    *   Remind user post-merge:
+        *   Branch merged.
+        *   Update PRD status (e.g., 'Implemented'). PRD 'Done' only if all conditions in `.cursor/rules/testing_guidelines.mdc` met.
+        *   Ensure task tracker tasks are closed, adhering to completion criteria in `.cursor/rules/testing_guidelines.mdc`.
+    *   Discuss follow-up (deployment, QA).
+
+**General AI Conduct Throughout the Workflow:**
+
+*   **Adherence to Guidelines:** Always follow `project_guidelines.mdc` (which incorporates `testing_guidelines.mdc`).
+*   **Proactive Communication:** Keep user informed (progress, assumptions, issues).
+*   **Clarity and Maintainability:** Strive for this in generated code.
+*   **Large PRDs:** Discuss if a large PRD needs breaking into multiple PRDs/branches.
+*   **Assumption Handling:** Clearly state assumptions and seek confirmation.
