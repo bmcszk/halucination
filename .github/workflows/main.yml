@@ -1,0 +1,19 @@
+name: Run Install Script Test
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make test script executable
+        run: chmod +x ./test_install_rules.sh
+
+      - name: Run test script
+        run: ./test_install_rules.sh 
