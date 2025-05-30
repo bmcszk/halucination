@@ -10,6 +10,7 @@ SOURCE_CURSORIGNORE_RELATIVE=".cursorignore"
 
 SOURCE_RULES_DIR="$SOURCE_PROJECT_DIR/$SOURCE_RULES_DIR_RELATIVE"
 SOURCE_CURSORIGNORE="$SOURCE_PROJECT_DIR/$SOURCE_CURSORIGNORE_RELATIVE"
+TIMESTAMP=$(date +%Y%m%d%H%M%S)
 
 # --- Functions ---
 print_usage() {
@@ -46,51 +47,53 @@ echo "Target project directory: $TARGET_PROJECT_DIR"
 TARGET_PROJECT_DIR=$(cd "$TARGET_PROJECT_DIR" && pwd)
 echo "Absolute target project directory: $TARGET_PROJECT_DIR"
 
+GITIGNORE_FILE="$TARGET_PROJECT_DIR/.gitignore"
+DOCKERIGNORE_FILE="$TARGET_PROJECT_DIR/.dockerignore"
 
-# --- Backup Phase ---
+# --- Processing Rules ---
 echo ""
-echo "--- Backing up existing Cursor configuration in target project ---"
-TIMESTAMP=$(date +%Y%m%d%H%M%S)
-# The target project will have rules placed in its .cursor/rules directory
-TARGET_DOT_CURSOR_DIR_ABSOLUTE="$TARGET_PROJECT_DIR/.cursor" # This is where linked rules will go
-TARGET_CURSORIGNORE_ABSOLUTE="$TARGET_PROJECT_DIR/.cursorignore" # This is where linked .cursorignore will go
-
-# Backup .cursor directory in target if it exists
-if [ -d "$TARGET_DOT_CURSOR_DIR_ABSOLUTE" ]; then
-  BACKUP_NAME=".cursor.bak.$TIMESTAMP"
-  mv "$TARGET_DOT_CURSOR_DIR_ABSOLUTE" "$TARGET_PROJECT_DIR/$BACKUP_NAME"
-  echo "Backed up existing '$TARGET_DOT_CURSOR_DIR_ABSOLUTE' to '$TARGET_PROJECT_DIR/$BACKUP_NAME'"
-fi
-
-# Backup .cursorignore file in target if it exists
-if [ -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then # If it's already a symlink, just replace
-    echo "Existing '$TARGET_CURSORIGNORE_ABSOLUTE' is a symlink. It will be replaced."
-elif [ -f "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then # If it's a regular file, back it up
-  BACKUP_IGNORE_NAME=".cursorignore.bak.$TIMESTAMP"
-  mv "$TARGET_CURSORIGNORE_ABSOLUTE" "$TARGET_PROJECT_DIR/$BACKUP_IGNORE_NAME"
-  echo "Backed up existing '$TARGET_CURSORIGNORE_ABSOLUTE' to '$TARGET_PROJECT_DIR/$BACKUP_IGNORE_NAME'"
-fi
-
-# --- Symbolic Link Creation Phase ---
-echo ""
-echo "--- Creating symbolic links for Cursor rules and .cursorignore ---"
-# Ensure the .cursor/rules directory exists in the target project
+echo "--- Processing Cursor rule files ---"
+TARGET_DOT_CURSOR_DIR_ABSOLUTE="$TARGET_PROJECT_DIR/.cursor"
 TARGET_RULES_DIR_IN_DOT_CURSOR="$TARGET_DOT_CURSOR_DIR_ABSOLUTE/rules"
 mkdir -p "$TARGET_RULES_DIR_IN_DOT_CURSOR"
 echo "Ensured target rules directory exists: $TARGET_RULES_DIR_IN_DOT_CURSOR"
 
-# Link rule files from source (cursor/rules) to target (.cursor/rules)
 if [ -d "$SOURCE_RULES_DIR" ]; then
   shopt -s nullglob # Handle case with no files in source rules dir
   for source_rule_file in "$SOURCE_RULES_DIR"/*; do
     if [ -f "$source_rule_file" ]; then # Ensure it's a file
       rule_name=$(basename "$source_rule_file")
-      # Use realpath for robust absolute path resolution of source file
-      absolute_source_rule_path=$(realpath "$source_rule_file") 
-      target_symlink_path="$TARGET_RULES_DIR_IN_DOT_CURSOR/$rule_name"
+      target_rule_path="$TARGET_RULES_DIR_IN_DOT_CURSOR/$rule_name"
+      relative_target_rule_path_for_ignore=".cursor/rules/$rule_name" # Relative to target project root
+
+      echo ""
+      echo "Processing rule: $rule_name"
+
+      # 1. Backup old existing file (if it's a real file, not a symlink)
+      if [ -f "$target_rule_path" ] && [ ! -L "$target_rule_path" ]; then
+        backup_name="$relative_target_rule_path_for_ignore.bak.$TIMESTAMP"
+        mv "$target_rule_path" "$TARGET_PROJECT_DIR/$backup_name"
+        echo "Backed up existing '$target_rule_path' to '$TARGET_PROJECT_DIR/$backup_name'"
+        add_to_ignore_file "$GITIGNORE_FILE" "/$backup_name"
+        echo "Added '$backup_name' to $GITIGNORE_FILE"
+        # DO NOT add rule backup to .dockerignore
+
+        # 2. Remove it from git (if it was a real file and presumably tracked)
+        (cd "$TARGET_PROJECT_DIR" && git rm --cached "$relative_target_rule_path_for_ignore" > /dev/null 2>&1 || true)
+        echo "Attempted to remove '$relative_target_rule_path_for_ignore' from git index in target project."
+      elif [ -L "$target_rule_path" ]; then
+        echo "Existing '$target_rule_path' is a symlink. It will be replaced."
+      fi
       
-      ln -sf "$absolute_source_rule_path" "$target_symlink_path"
-      echo "Linked: $target_symlink_path -> $absolute_source_rule_path"
+      # 3. Add the file (symlink path) to .gitignore
+      add_to_ignore_file "$GITIGNORE_FILE" "/$relative_target_rule_path_for_ignore"
+      echo "Added '$relative_target_rule_path_for_ignore' to $GITIGNORE_FILE"
+      # DO NOT add individual rule path to .dockerignore (will be covered by .cursor/)
+
+      # 4. Create symbolic link
+      absolute_source_rule_path=$(realpath "$source_rule_file")
+      ln -sf "$absolute_source_rule_path" "$target_rule_path"
+      echo "Linked: $target_rule_path -> $absolute_source_rule_path"
     fi
   done
   shopt -u nullglob
@@ -98,8 +101,36 @@ else
   echo "Warning: Source rules directory '$SOURCE_RULES_DIR' not found. No rules will be linked."
 fi
 
-# Link .cursorignore from source (.cursorignore) to target (.cursorignore)
+# --- Processing .cursorignore ---
+echo ""
+echo "--- Processing .cursorignore file ---"
+TARGET_CURSORIGNORE_ABSOLUTE="$TARGET_PROJECT_DIR/.cursorignore"
+RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE=".cursorignore" # Relative to target project root
+
 if [ -f "$SOURCE_CURSORIGNORE" ]; then
+  # 1. Backup old existing file
+  if [ -f "$TARGET_CURSORIGNORE_ABSOLUTE" ] && [ ! -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then
+    backup_cursorignore_name="$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE.bak.$TIMESTAMP"
+    mv "$TARGET_CURSORIGNORE_ABSOLUTE" "$TARGET_PROJECT_DIR/$backup_cursorignore_name"
+    echo "Backed up existing '$TARGET_CURSORIGNORE_ABSOLUTE' to '$TARGET_PROJECT_DIR/$backup_cursorignore_name'"
+    add_to_ignore_file "$GITIGNORE_FILE" "/$backup_cursorignore_name"
+    echo "Added '$backup_cursorignore_name' to $GITIGNORE_FILE"
+    # DO NOT add .cursorignore backup to .dockerignore
+
+    # 2. Remove it from git
+    (cd "$TARGET_PROJECT_DIR" && git rm --cached "$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE" > /dev/null 2>&1 || true)
+    echo "Attempted to remove '$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE' from git index in target project."
+  elif [ -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then
+    echo "Existing '$TARGET_CURSORIGNORE_ABSOLUTE' is a symlink. It will be replaced."
+  fi
+
+  # 3. Add the file and backup file to .gitignore / .dockerignore
+  add_to_ignore_file "$GITIGNORE_FILE" "/$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE"
+  echo "Added '$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE' to $GITIGNORE_FILE"
+  add_to_ignore_file "$DOCKERIGNORE_FILE" "$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE" # Add .cursorignore itself
+  echo "Added '$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE' to $DOCKERIGNORE_FILE"
+  
+  # 4. Create symbolic link
   absolute_source_cursorignore_path=$(realpath "$SOURCE_CURSORIGNORE")
   ln -sf "$absolute_source_cursorignore_path" "$TARGET_CURSORIGNORE_ABSOLUTE"
   echo "Linked: $TARGET_CURSORIGNORE_ABSOLUTE -> $absolute_source_cursorignore_path"
@@ -107,45 +138,18 @@ else
   echo "Warning: Source '$SOURCE_CURSORIGNORE' not found. Not linking .cursorignore."
 fi
 
-# --- Update Ignore Files Phase ---
 echo ""
-echo "--- Updating .gitignore and .dockerignore in target project ---"
-GITIGNORE_FILE="$TARGET_PROJECT_DIR/.gitignore"
-DOCKERIGNORE_FILE="$TARGET_PROJECT_DIR/.dockerignore"
+echo "--- General .gitignore/.dockerignore updates ---"
+# Add general backup patterns to .gitignore
+add_to_ignore_file "$GITIGNORE_FILE" "/.cursor.bak.*/" 
+add_to_ignore_file "$GITIGNORE_FILE" "/.cursorignore.bak.*/" 
+add_to_ignore_file "$GITIGNORE_FILE" "/.cursor/rules/*.bak.*/"
 
-echo "Updating $GITIGNORE_FILE..."
-add_to_ignore_file "$GITIGNORE_FILE" "/.cursor.bak.*/"
-add_to_ignore_file "$GITIGNORE_FILE" "/.cursorignore.bak.*/"
-
-# Add individual symlinked rules to .gitignore
-if [ -d "$TARGET_RULES_DIR_IN_DOT_CURSOR" ]; then # Check if target rules dir was created and might contain links
-  shopt -s nullglob
-  # Iterate over what's actually in the target, these would be the symlinks
-  for linked_rule_file in "$TARGET_RULES_DIR_IN_DOT_CURSOR"/*; do 
-    if [ -L "$linked_rule_file" ]; then # Ensure it's a symlink
-      rule_name=$(basename "$linked_rule_file")
-      add_to_ignore_file "$GITIGNORE_FILE" "/.cursor/rules/$rule_name"
-    fi
-  done
-  shopt -u nullglob
-fi
-
-# Add linked .cursorignore to .gitignore
-if [ -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then 
-    add_to_ignore_file "$GITIGNORE_FILE" "/.cursorignore"
-fi
-
-echo "Updating $DOCKERIGNORE_FILE..."
-add_to_ignore_file "$DOCKERIGNORE_FILE" ".cursor.bak.*/"
-add_to_ignore_file "$DOCKERIGNORE_FILE" ".cursorignore.bak.*/"
-# For Docker, it's often safer to ignore the whole .cursor directory due to symlink handling by Docker context
-add_to_ignore_file "$DOCKERIGNORE_FILE" "/.cursor/" 
-# And also the root .cursorignore if it was linked
-if [ -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then
-    add_to_ignore_file "$DOCKERIGNORE_FILE" "/.cursorignore"
-fi
+# Ensure .cursor/ is in .dockerignore
+add_to_ignore_file "$DOCKERIGNORE_FILE" ".cursor/"
+# Specific backup patterns are NOT added to .dockerignore
 
 echo ""
 echo "--- Cursor rules installation complete! ---"
-echo "Please review the changes in '$TARGET_PROJECT_DIR/.gitignore' and '$TARGET_PROJECT_DIR/.dockerignore'."
+echo "Please review the changes in '$GITIGNORE_FILE' and '$DOCKERIGNORE_FILE'."
 echo "Remember to commit these ignore file changes in the target project." 

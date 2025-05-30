@@ -146,11 +146,9 @@ fi
 
 # Check .dockerignore entries
 echo "Checking .dockerignore entries in $TARGET_DOCKERIGNORE..."
-assert_file_contains "$TARGET_DOCKERIGNORE" ".cursor.bak.*/"
-assert_file_contains "$TARGET_DOCKERIGNORE" ".cursorignore.bak.*/"
-assert_file_contains "$TARGET_DOCKERIGNORE" "/.cursor/"
+assert_file_contains "$TARGET_DOCKERIGNORE" ".cursor/"
 if [ -f "$SOURCE_CURSORIGNORE_ABSOLUTE_PATH" ]; then
-    assert_file_contains "$TARGET_DOCKERIGNORE" "/.cursorignore" # Corrected variable here
+    assert_file_contains "$TARGET_DOCKERIGNORE" ".cursorignore"
 fi
 
 echo ""
