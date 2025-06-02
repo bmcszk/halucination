@@ -50,6 +50,16 @@ echo "Absolute target project directory: $TARGET_PROJECT_DIR"
 GITIGNORE_FILE="$TARGET_PROJECT_DIR/.gitignore"
 DOCKERIGNORE_FILE="$TARGET_PROJECT_DIR/.dockerignore"
 
+# --- Backup Directory Setup ---
+TARGET_BACKUP_DIR_ABSOLUTE="$TARGET_PROJECT_DIR/.cursor.back"
+TARGET_BACKUP_RULES_DIR_ABSOLUTE="$TARGET_BACKUP_DIR_ABSOLUTE/rules" # For individual rule file backups
+echo ""
+echo "--- Setting up backup directory ---"
+mkdir -p "$TARGET_BACKUP_RULES_DIR_ABSOLUTE" # This also creates TARGET_BACKUP_DIR_ABSOLUTE if it doesn't exist
+echo "Ensured backup directory exists: $TARGET_BACKUP_RULES_DIR_ABSOLUTE"
+add_to_ignore_file "$GITIGNORE_FILE" "/.cursor.back/"
+echo "Added '/.cursor.back/' to $GITIGNORE_FILE to ignore all backups within this directory."
+
 # --- Processing Rules ---
 echo ""
 echo "--- Processing Cursor rule files ---"
@@ -71,11 +81,10 @@ if [ -d "$SOURCE_RULES_DIR" ]; then
 
       # 1. Backup old existing file (if it's a real file, not a symlink)
       if [ -f "$target_rule_path" ] && [ ! -L "$target_rule_path" ]; then
-        backup_name="$relative_target_rule_path_for_ignore.bak.$TIMESTAMP"
-        mv "$target_rule_path" "$TARGET_PROJECT_DIR/$backup_name"
-        echo "Backed up existing '$target_rule_path' to '$TARGET_PROJECT_DIR/$backup_name'"
-        add_to_ignore_file "$GITIGNORE_FILE" "/$backup_name"
-        echo "Added '$backup_name' to $GITIGNORE_FILE"
+        backup_file_path="$TARGET_BACKUP_RULES_DIR_ABSOLUTE/$rule_name.$TIMESTAMP"
+        mv "$target_rule_path" "$backup_file_path"
+        echo "Backed up existing '$target_rule_path' to '$backup_file_path'"
+        # Gitignore for the entire .cursor.back/ directory is handled earlier
         # DO NOT add rule backup to .dockerignore
 
         # 2. Remove it from git (if it was a real file and presumably tracked)
@@ -110,11 +119,10 @@ RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE=".cursorignore" # Relative to target pro
 if [ -f "$SOURCE_CURSORIGNORE" ]; then
   # 1. Backup old existing file
   if [ -f "$TARGET_CURSORIGNORE_ABSOLUTE" ] && [ ! -L "$TARGET_CURSORIGNORE_ABSOLUTE" ]; then
-    backup_cursorignore_name="$RELATIVE_TARGET_CURSORIGNORE_FOR_IGNORE.bak.$TIMESTAMP"
-    mv "$TARGET_CURSORIGNORE_ABSOLUTE" "$TARGET_PROJECT_DIR/$backup_cursorignore_name"
-    echo "Backed up existing '$TARGET_CURSORIGNORE_ABSOLUTE' to '$TARGET_PROJECT_DIR/$backup_cursorignore_name'"
-    add_to_ignore_file "$GITIGNORE_FILE" "/$backup_cursorignore_name"
-    echo "Added '$backup_cursorignore_name' to $GITIGNORE_FILE"
+    backup_cursorignore_file_path="$TARGET_BACKUP_DIR_ABSOLUTE/.cursorignore.$TIMESTAMP"
+    mv "$TARGET_CURSORIGNORE_ABSOLUTE" "$backup_cursorignore_file_path"
+    echo "Backed up existing '$TARGET_CURSORIGNORE_ABSOLUTE' to '$backup_cursorignore_file_path'"
+    # Gitignore for the entire .cursor.back/ directory is handled earlier
     # DO NOT add .cursorignore backup to .dockerignore
 
     # 2. Remove it from git
@@ -141,9 +149,7 @@ fi
 echo ""
 echo "--- General .gitignore/.dockerignore updates ---"
 # Add general backup patterns to .gitignore
-add_to_ignore_file "$GITIGNORE_FILE" "/.cursor.bak.*/" 
-add_to_ignore_file "$GITIGNORE_FILE" "/.cursorignore.bak.*/" 
-add_to_ignore_file "$GITIGNORE_FILE" "/.cursor/rules/*.bak.*/"
+# Specific backup patterns are now covered by '/.cursor.back/' added earlier.
 
 # Ensure .cursor/ is in .dockerignore
 add_to_ignore_file "$DOCKERIGNORE_FILE" ".cursor/"

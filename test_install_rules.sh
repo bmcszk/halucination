@@ -5,12 +5,15 @@ set -e
 
 # --- Configuration ---
 SOURCE_PROJECT_DIR_FOR_TEST=$(pwd) # This is the 'halucination' project dir
-INSTALL_SCRIPT="$SOURCE_PROJECT_DIR_FOR_TEST/install_cursor_rules.sh"
+INSTALL_CURSOR_SCRIPT="$SOURCE_PROJECT_DIR_FOR_TEST/install_cursor_rules.sh"
+INSTALL_WINDSURF_SCRIPT="$SOURCE_PROJECT_DIR_FOR_TEST/install_windsurf_rules.sh"
 
 TEST_DIR_NAME="_tmp_install_test_project"
 
 SOURCE_RULES_DIR_RELATIVE_TO_SOURCE="cursor/rules"
 SOURCE_CURSORIGNORE_RELATIVE_TO_SOURCE=".cursorignore"
+SOURCE_WINDSURF_RULES_DIR_RELATIVE_TO_SOURCE="windsurf/rules"
+SOURCE_WINDSURFIGNORE_RELATIVE_TO_SOURCE=".windsurfignore"
 
 # --- Helper Functions ---
 assert_symlink_exists_and_points_to() {
@@ -78,12 +81,22 @@ echo "Created dummy .gitignore and .dockerignore in $TEST_DIR_NAME"
 # 2. Invoke the installation script
 echo ""
  echo "Invoking install_cursor_rules.sh on $TEST_DIR_NAME ..."
-if ! bash "$INSTALL_SCRIPT" "$TEST_DIR_NAME"; then
+if ! bash "$INSTALL_CURSOR_SCRIPT" "$TEST_DIR_NAME"; then
   echo "FAIL: install_cursor_rules.sh script exited with an error."
   # No cleanup on error, allow inspection
   exit 1
 fi
 echo "install_cursor_rules.sh script completed."
+
+# 2b. Invoke the Windsurf installation script
+echo ""
+echo "Invoking install_windsurf_rules.sh on $TEST_DIR_NAME ..."
+if ! bash "$INSTALL_WINDSURF_SCRIPT" "$TEST_DIR_NAME"; then
+  echo "FAIL: install_windsurf_rules.sh script exited with an error."
+  # No cleanup on error, allow inspection
+  exit 1
+fi
+echo "install_windsurf_rules.sh script completed."
 
 # 3. Perform Checks
 echo ""
@@ -129,8 +142,7 @@ fi
 
 # Check .gitignore entries
 echo "Checking .gitignore entries in $TARGET_GITIGNORE..."
-assert_file_contains "$TARGET_GITIGNORE" "/.cursor.bak.*/"
-assert_file_contains "$TARGET_GITIGNORE" "/.cursorignore.bak.*/"
+assert_file_contains "$TARGET_GITIGNORE" "/.cursor.back/" # Check for the consolidated backup directory ignore rule
 
 if [ $num_source_rules -gt 0 ]; then
     # Check one rule file to see if it's in .gitignore (assuming basename logic is consistent)
@@ -150,6 +162,70 @@ assert_file_contains "$TARGET_DOCKERIGNORE" ".cursor/"
 if [ -f "$SOURCE_CURSORIGNORE_ABSOLUTE_PATH" ]; then
     assert_file_contains "$TARGET_DOCKERIGNORE" ".cursorignore"
 fi
+
+echo ""
+# --- Windsurf Specific Checks ---
+echo ""
+echo "--- Performing Windsurf Specific Checks --- "
+
+TARGET_PROJECT_DOT_WINDSURF_RULES_DIR="$TEST_DIR_NAME/.windsurf/rules"
+if [ ! -d "$TARGET_PROJECT_DOT_WINDSURF_RULES_DIR" ]; then
+  echo "FAIL: Target Windsurf rules directory $TARGET_PROJECT_DOT_WINDSURF_RULES_DIR was not created."
+  exit 1
+fi
+echo "PASS: Target Windsurf rules directory $TARGET_PROJECT_DOT_WINDSURF_RULES_DIR exists."
+
+SOURCE_WINDSURF_RULES_ABSOLUTE_DIR="$SOURCE_PROJECT_DIR_FOR_TEST/$SOURCE_WINDSURF_RULES_DIR_RELATIVE_TO_SOURCE"
+num_source_windsurf_rules=0
+if [ -d "$SOURCE_WINDSURF_RULES_ABSOLUTE_DIR" ]; then
+    shopt -s nullglob
+    for source_ws_rule_file in "$SOURCE_WINDSURF_RULES_ABSOLUTE_DIR"/*; do
+        if [ -f "$source_ws_rule_file" ]; then
+            ws_rule_name=$(basename "$source_ws_rule_file")
+            target_ws_symlink="$TARGET_PROJECT_DOT_WINDSURF_RULES_DIR/$ws_rule_name"
+            expected_actual_target_for_ws_symlink=$(realpath "$source_ws_rule_file")
+            assert_symlink_exists_and_points_to "$target_ws_symlink" "$expected_actual_target_for_ws_symlink"
+            num_source_windsurf_rules=$((num_source_windsurf_rules + 1))
+        fi
+    done
+    shopt -u nullglob
+fi
+if [ $num_source_windsurf_rules -eq 0 ]; then
+    echo "INFO: No Windsurf rule files found in source project at $SOURCE_WINDSURF_RULES_ABSOLUTE_DIR. Skipping Windsurf rule symlink checks."
+fi
+
+# Check .gitignore entries for Windsurf
+echo "Checking .gitignore entries for Windsurf in $TARGET_GITIGNORE..."
+assert_file_contains "$TARGET_GITIGNORE" "/.windsurf.back/"
+
+if [ $num_source_windsurf_rules -gt 0 ]; then
+    echo "Checking .gitignore entries for individual Windsurf rules..."
+    shopt -s nullglob
+    for source_ws_rule_file_for_gitignore_check in "$SOURCE_WINDSURF_RULES_ABSOLUTE_DIR"/*; do
+        if [ -f "$source_ws_rule_file_for_gitignore_check" ]; then
+            ws_rule_name_for_gitignore=$(basename "$source_ws_rule_file_for_gitignore_check")
+            assert_file_contains "$TARGET_GITIGNORE" "/.windsurf/rules/$ws_rule_name_for_gitignore"
+        fi
+    done
+    shopt -u nullglob
+fi
+
+# Check .windsurfignore symlink and .gitignore/.dockerignore entries
+SOURCE_WINDSURFIGNORE_ABSOLUTE_PATH="$SOURCE_PROJECT_DIR_FOR_TEST/$SOURCE_WINDSURFIGNORE_RELATIVE_TO_SOURCE"
+if [ -f "$SOURCE_WINDSURFIGNORE_ABSOLUTE_PATH" ]; then
+    echo "Checking .windsurfignore symlink and ignore entries..."
+    target_windsurfignore_symlink_in_target_project="$TEST_DIR_NAME/.windsurfignore"
+    expected_actual_target_for_windsurfignore_symlink=$(realpath "$SOURCE_WINDSURFIGNORE_ABSOLUTE_PATH")
+    assert_symlink_exists_and_points_to "$target_windsurfignore_symlink_in_target_project" "$expected_actual_target_for_windsurfignore_symlink"
+    assert_file_contains "$TARGET_GITIGNORE" "/.windsurfignore"
+    assert_file_contains "$TARGET_DOCKERIGNORE" ".windsurfignore"
+else
+    echo "INFO: Source .windsurfignore not found at $SOURCE_WINDSURFIGNORE_ABSOLUTE_PATH. Skipping .windsurfignore checks."
+fi
+
+# Check .dockerignore entries for Windsurf
+echo "Checking .dockerignore entries for Windsurf in $TARGET_DOCKERIGNORE..."
+assert_file_contains "$TARGET_DOCKERIGNORE" ".windsurf/"
 
 echo ""
 echo "--- All checks passed successfully! --- "
