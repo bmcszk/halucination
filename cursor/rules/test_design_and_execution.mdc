@@ -46,4 +46,4 @@ alwaysApply: true
     *   The `make check` target MUST include `make test-unit` (or the direct command for running unit tests) and other checks like linting as specified in `.cursor/rules/project_standards.mdc` or language-specific guidelines.
 
 3.  **Task/PRD Completion Criteria:**
-    *   Any task, feature, or PRD is ONLY considered 'Done' or complete when, in addition to other functional criteria, ALL relevant testing requirements outlined in this document (Section I.1. Test Integrity) are met. This typically means all associated automated tests (unit, integration, E2E as applicable to the scope of work) are passing.
+    *   Any task, feature, or PRD is ONLY considered 'Done' or complete when, in addition to other functional criteria, ALL relevant testing requirements outlined in `.cursor/rules/testing_fundamentals.mdc` (Section I.1. Test Integrity) are met. This typically means all associated automated tests (unit, integration, E2E as applicable to the scope of work) are passing.

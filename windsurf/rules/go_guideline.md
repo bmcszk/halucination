@@ -5,12 +5,12 @@ globs: *.go, *.mod
 
 # Go Development Guidelines
 
-AI Agents MUST ALWAYS adhere to these Go development guidelines. These supplement the general `.windsurf/rules/testing_guidelines.md`.
+AI Agents MUST ALWAYS adhere to these Go development guidelines. These supplement the general `.windsurf/rules/testing_*.md`.
 
 ## Core Principles & Practices
 - **Interfaces:**
     - Interfaces MUST be defined per consumer needs (Interface Segregation Principle).
-    - Interfaces MUST ONLY be created when necessary (polymorphism, testing (as detailed in `.windsurf/rules/testing_guidelines.md`), decoupling). AI Agent MUST AVOID premature/excessive interface creation.
+    - Interfaces MUST ONLY be created when necessary (polymorphism, testing (as detailed in `.windsurf/rules/testing_*.md`), decoupling). AI Agent MUST AVOID premature/excessive interface creation.
 - **Auto-generated Files:** AI Agent MUST NEVER apply Go rules, formatting, or refactoring to files containing "DO NOT EDIT" (or similar) comments.
 - **Service Structure (Packages):** (Refer to `.windsurf/rules/go_project_setup_guideline.md` for full structure)
     - `handler`: API/request handling.
@@ -40,7 +40,7 @@ AI Agents MUST ALWAYS adhere to these Go development guidelines. These supplemen
 - **Event-Driven Systems:** `Watermill` (`watermill.io/`) (if applicable)
 
 ## Testing Strategy (Go Specifics)
-Refer to `.windsurf/rules/testing_guidelines.md` for general testing principles (TDD, unit/E2E definitions, execution via Makefile, etc.). This section outlines Go-specific implementations.
+Refer to `.windsurf/rules/testing_*.md` for general testing principles (TDD, unit/E2E definitions, execution via Makefile, etc.). This section outlines Go-specific implementations.
 
 - **Categorization (Go Build Tags & Libraries):**
     - **Unit Tests (`//go:build unit`):**
@@ -52,7 +52,7 @@ Refer to `.windsurf/rules/testing_guidelines.md` for general testing principles 
 
 ## Code Quality & Workflow (Go Specifics)
 - **Pre-commit Checks (`make check`):**
-    - The `make check` target, in addition to requirements from `.windsurf/rules/testing_guidelines.md` (like running unit tests), MUST also include for Go projects:
+    - The `make check` target, in addition to requirements from `.windsurf/rules/testing_*.md` (like running unit tests), MUST also include for Go projects:
         - `go build ./...`
         - `golangci-lint run`
     - As per general guidelines, `make check` MUST NOT require Docker or external services.

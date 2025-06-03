@@ -15,11 +15,11 @@ This document MANDATES the workflow for managing requirements and their correspo
 
 2.  **Test Scenarios File (`docs/scenarios.md`):**
     *   For EVERY requirement in `docs/requirements.md`, corresponding test scenarios (covering common and edge cases) MUST be documented in `docs/scenarios.md`.
-    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`).
+    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in `.cursor/rules/testing_*.mdc` (referenced via `.cursor/rules/project_standards.mdc`).
 
 ## AI Assistant Responsibilities for Requirements
 
--   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`).
+-   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in `.cursor/rules/testing_*.mdc` (referenced via `.cursor/rules/project_standards.mdc`).
 
 ## Git Workflow for Requirements
 

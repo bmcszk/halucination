@@ -10,14 +10,14 @@ alwaysApply: false
 **Phase 1: Analyze Current State**
 
 1.  **Instruction: Assess Existing `.mdc` Rules.**
-    *   Prompt user for existing guiding rules (e.g., `.cursor/rules/project_guidelines.mdc`, `.cursor/rules/requirement_workflow.mdc`, `.cursor/rules/task_workflow.mdc`).
+    *   Prompt user for existing guiding rules (e.g., `.cursor/rules/project_standards.mdc`, `.cursor/rules/requirement_workflow.mdc`, `.cursor/rules/task_workflow.mdc`).
     *   For each rule provided:
-        *   **Analyze `.cursor/rules/project_guidelines.mdc`:** Identify general project standards (coding, style, architecture). Propose to user:
+        *   **Analyze `.cursor/rules/project_standards.mdc`:** Identify general project standards (coding, style, architecture). Propose to user:
             *   Retain as active if general and non-conflicting.
-            *   Integrate relevant parts into `.cursor/rules/prd_workflow.mdc` if overlapping or specific to old requirement/task handling.
-        *   **Analyze `.cursor/rules/requirement_workflow.mdc`:** Identify its core logic for processing `requirements.md`. Note key steps for potential adaptation into `.cursor/rules/prd_workflow.mdc`.
-        *   **Analyze `.cursor/rules/task_workflow.mdc`:** Identify its core logic for managing `tasks.md`. Note key steps for potential adaptation into `.cursor/rules/prd_workflow.mdc`.
-    *   Goal: Extract valuable, non-redundant guidance for the new `.cursor/rules/prd_workflow.mdc`.
+            *   Integrate relevant parts into `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` if overlapping or specific to old requirement/task handling.
+        *   **Analyze `.cursor/rules/requirement_workflow.mdc`:** Identify its core logic for processing `requirements.md`. Note key steps for potential adaptation into `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc`.
+        *   **Analyze `.cursor/rules/task_workflow.mdc`:** Identify its core logic for managing `tasks.md`. Note key steps for potential adaptation into `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc`.
+    *   Goal: Extract valuable, non-redundant guidance for the new `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc`.
 
 2.  **Instruction: Analyze `requirements.md` and `tasks.md` Data Files.**
     *   Request user to provide `requirements.md` and `tasks.md`.
@@ -33,14 +33,14 @@ alwaysApply: false
 
 **Phase 2: Consolidate Workflow Guidance**
 
-3.  **Instruction: Define and Refine `.cursor/rules/prd_workflow.mdc`.**
-    *   Verify with user that a `.cursor/rules/prd_workflow.mdc` exists or offer to help create one based on previous discussions (referencing our established PRD workflow structure).
-    *   Propose incorporating essential, non-overlapping logic from `.cursor/rules/requirement_workflow.mdc` (for PRD ingestion/clarification) and `.cursor/rules/task_workflow.mdc` (for task management within PRDs) directly into `.cursor/rules/prd_workflow.mdc`.
-    *   If `.cursor/rules/project_guidelines.mdc` is retained, ensure `.cursor/rules/prd_workflow.mdc` instructs AI to adhere to it.
-    *   Recommend to user that `.cursor/rules/prd_workflow.mdc` becomes the single, primary workflow rule for PRD processing.
+3.  **Instruction: Define and Refine `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc`.**
+    *   Verify with user that `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` exist or offer to help create one based on previous discussions (referencing our established PRD workflow structure).
+    *   Propose incorporating essential, non-overlapping logic from `.cursor/rules/requirement_workflow.mdc` (for PRD ingestion/clarification) and `.cursor/rules/task_workflow.mdc` (for task management within PRDs) directly into `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc`.
+    *   If `.cursor/rules/project_standards.mdc` is retained, ensure `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` instruct AI to adhere to it.
+    *   Recommend to user that `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` become the primary workflow rules for PRD processing.
 
 4.  **Instruction: Plan Deprecation of Old Workflow Rules.**
-    *   Advise user: "Once `.cursor/rules/prd_workflow.mdc` is comprehensive, archive older workflow rules (e.g., `.cursor/rules/requirement_workflow.mdc`, `.cursor/rules/task_workflow.mdc`) to `.cursor/rules/archive/` to prevent conflicting instructions."
+    *   Advise user: "Once `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` are comprehensive, archive older workflow rules (e.g., `.cursor/rules/requirement_workflow.mdc`, `.cursor/rules/task_workflow.mdc`) to `.cursor/rules/archive/` to prevent conflicting instructions."
 
 **Phase 3: Migrate Data to New PRD Structure**
 
@@ -59,10 +59,10 @@ alwaysApply: false
 
 7.  **Instruction: Recommend and Support a Pilot Project.**
     *   Suggest user select one feature (with its new PRD and task tracker) for a pilot run of the new process.
-    *   State: "I will use `.cursor/rules/prd_workflow.mdc` to guide my actions for this pilot. Please monitor and provide feedback."
+    *   State: "I will use `.cursor/rules/prd_setup_and_planning.mdc` and `.cursor/rules/prd_implementation_and_review.mdc` to guide my actions for this pilot. Please monitor and provide feedback."
 
 8.  **Instruction: Initiate Post-Pilot Review.**
-    *   After pilot completion, ask user: "How did the new process work for the pilot feature? What adjustments, if any, should we make to `.cursor/rules/prd_workflow.mdc` or your PRD templates?"
+    *   After pilot completion, ask user: "How did the new process work for the pilot feature? What adjustments, if any, should we make to `.cursor/rules/prd_setup_and_planning.mdc`, `.cursor/rules/prd_implementation_and_review.mdc`, or your PRD templates?"
 
 9.  **Instruction: Advise Incremental Migration for Remaining Features.**
     *   Recommend user migrate remaining features/tasks incrementally.

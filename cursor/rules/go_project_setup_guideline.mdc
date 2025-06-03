@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # Go Project Setup Guide
 
-This guide MANDATES the standard setup for new Go services/microservices. AI Agents and developers MUST adhere to this guide when initializing new projects or services. It complements `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`.
+This guide MANDATES the standard setup for new Go services/microservices. AI Agents and developers MUST adhere to this guide when initializing new projects or services. It complements `.cursor/rules/testing_*.mdc` and `.cursor/rules/go_guideline.mdc`.
 
 ## 1. Directory Structure (Root Level)
 This structure MUST be followed:
@@ -26,7 +26,7 @@ This structure MUST be followed:
 -   `pkg/`: Shared libraries/utilities (if any, across services).
 -   `docs/`: Project documentation (`requirements.md`, `tasks.md`, `decisions.md`, `project_structure.md`).
 -   `.cursor/rules/`: AI assistant guidelines (MDC files).
--   `e2e/`: End-to-End tests (see `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc` for testing details).
+-   `e2e/`: End-to-End tests (see `.cursor/rules/testing_*.mdc` and `.cursor/rules/go_guideline.mdc` for testing details).
 -   `Makefile`: Common dev tasks.
 -   `Dockerfile`: Containerization config.
 -   `docker-compose.yml`: Local dev & E2E test environment.
@@ -50,20 +50,20 @@ The following tools and libraries MUST be used as specified:
 -   **Messaging (Optional, if event-driven):** `github.com/ThreeDotsLabs/watermill`.
 
 ## 3. Standard Makefile Targets
-These targets MUST exist in the root `Makefile`. Their testing-related aspects MUST align with `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`.
+These targets MUST exist in the root `Makefile`. Their testing-related aspects MUST align with `.cursor/rules/testing_*.mdc` and `.cursor/rules/go_guideline.mdc`.
 -   `build`: Compile the project.
 -   `run`: Run the project locally.
 -   `lint`: Run `golangci-lint run` (as specified in `.cursor/rules/go_guideline.mdc`).
--   `test-unit`: Run unit tests ONLY (as defined in `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`).
--   `test-e2e`: Run E2E tests ONLY (as defined in `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`).
--   `check`: Pre-commit checks (MUST include items from `.cursor/rules/go_guideline.mdc` and meet all requirements of `.cursor/rules/testing_guidelines.mdc`).
+-   `test-unit`: Run unit tests ONLY (as defined in `.cursor/rules/testing_*.mdc` and `.cursor/rules/go_guideline.mdc`).
+-   `test-e2e`: Run E2E tests ONLY (as defined in `.cursor/rules/testing_*.mdc` and `.cursor/rules/go_guideline.mdc`).
+-   `check`: Pre-commit checks (MUST include items from `.cursor/rules/go_guideline.mdc` and meet all requirements of `.cursor/rules/testing_*.mdc`).
 -   `sqlc`: Generate SQLC code.
 -   `migrate-up`/`migrate-down`: Manual DB migration control.
 -   `docker-build`: Build Docker image.
 -   `docker-run`: Run project via Docker.
 
 ## 4. Testing Strategy (Go Specific Structural Elements)
-Refer to `.cursor/rules/testing_guidelines.mdc` for overall testing strategy and `.cursor/rules/go_guideline.mdc` for Go-specific testing practices (like build tags and libraries).
+Refer to `.cursor/rules/testing_*.mdc` for overall testing strategy and `.cursor/rules/go_guideline.mdc` for Go-specific testing practices (like build tags and libraries).
 -   **E2E Test Location:** E2E tests for Go projects MUST be located in the root `e2e/` directory.
 -   **E2E Isolated Configuration:** E2E tests MUST use a separate Docker Compose file (e.g., `docker-compose.e2e.yml`) that includes the main `docker-compose.yml` and overrides for E2E specifics.
 

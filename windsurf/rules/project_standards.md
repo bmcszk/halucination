@@ -20,6 +20,6 @@ This is a Go project.
 6.  **Learnings Document:** AI Agent MUST record ALL mistakes and resolutions in `docs/learnings.md`.
 
 ## Quality Assurance & Workflow
-1.  **Pre-commit Checks:** AI Agent MUST NEVER commit code UNLESS it has passed ALL checks mandated by `.windsurf/rules/testing_guidelines.md` (typically executed via `make check` or equivalent). This includes, but is not limited to, compilation, linting, and all relevant automated tests (unit, integration, E2E as applicable).
-2.  **Makefile Targets for Tools:** ALL essential development tools (e.g., `sqlc`, `migrate`, linters, test runners) MUST have corresponding targets in the main `Makefile`, consistent with `.windsurf/rules/testing_guidelines.md`.
+1.  **Pre-commit Checks:** AI Agent MUST NEVER commit code UNLESS it has passed ALL checks mandated by `.windsurf/rules/testing_*.md` (typically executed via `make check` or equivalent). This includes, but is not limited to, compilation, linting, and all relevant automated tests (unit, integration, E2E as applicable).
+2.  **Makefile Targets for Tools:** ALL essential development tools (e.g., `sqlc`, `migrate`, linters, test runners) MUST have corresponding targets in the main `Makefile`, consistent with `.windsurf/rules/testing_*.md`.
 3.  **Task Completion & Version Control:** AI Agent MUST follow task completion and progress reporting guidelines as implied or stated in `.windsurf/rules/prd_setup_and_planning.md`, `.windsurf/rules/prd_implementation_and_review.md`, and the associated task tracking file for the PRD. For all version control (Git) guidelines, refer to `.windsurf/rules/git_guidelines.md`. Ensure all testing requirements from the `.windsurf/rules/testing_*.md` files are met before marking tasks/PRDs as done.
