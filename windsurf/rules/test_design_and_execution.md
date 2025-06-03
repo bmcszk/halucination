@@ -1,0 +1,45 @@
+---
+trigger: always_on
+---
+
+## V. Test Case Design and Structure
+
+1.  **Conciseness and Focus:**
+    *   Tests MUST be concise and focused, testing one specific aspect of behavior or functionality per test case.
+    *   Avoid overly complex tests that try to validate multiple unrelated things at once.
+
+2.  **Test File Size and Organization:**
+    *   Test files MUST be kept small and manageable. If a test file grows too large (e.g., significantly exceeding a few hundred lines or covering too many distinct features/contexts), it MUST be split into multiple, more focused files.
+    *   Related tests for a specific unit or feature SHOULD be grouped together.
+
+3.  **Given-When-Then (GWT) Structure:**
+    *   ALL tests (both unit and E2E, where applicable and practical) MUST clearly follow the Given-When-Then structure to delineate setup, action, and verification phases.
+    *   Each individual test case (function/method) MUST contain conceptually one 'Given' block/section (setup), one 'When' block/section (action), and one 'Then' block/section (assertions).
+    *   This structure can be implemented using comments (e.g., `// Given: ...`, `// When: ...`, `// Then: ...`), dedicated helper functions, or language-specific BDD/testing framework constructs.
+
+4.  **'When' Section Clarity:**
+    *   The 'When' section of a test, which describes or executes the primary action being performed on the system under test, SHOULD ideally be a single, expressive line of code or a call to a single function that encapsulates this action.
+
+5.  **Test File Organization: Test Logic vs. Helper Logic:**
+    *   To enhance readability and maintainability, test files SHOULD separate test case logic from complex setup and assertion helper logic.
+    *   **Primary Test File (e.g., `feature_test.go`):**
+        *   This file MUST contain the actual test functions (e.g., `TestFeatureX`, `TestAPIEndpointY`).
+        *   It SHOULD clearly orchestrate the Given-When-Then flow for each test case, primarily by calling helper functions for setup and assertions.
+    *   **Helper File(s) (e.g., `feature_test_helpers.go`, `testutils/builders.go`):**
+        *   These files MUST encapsulate reusable or complex logic for:
+            *   **Given (Setup):** Functions to prepare test data, configure mocks, set up preconditions (e.g., `setupUserProfileTestData()`, `mockUserServiceSuccess()`).
+            *   **Then (Assertions):** Functions for performing detailed or repeated assertions (e.g., `assertUserProfileMatchesExpected(actual, expected)`, `verifyOrderPersistedCorrectly(orderID)`).
+            *   Helper files can be co-located with the test file (e.g., using `_test` package in Go) or placed in a shared test utility package/directory if the helpers are broadly applicable.
+    *   The goal is to make the primary test file read like a clear specification of test scenarios, with implementation details abstracted into helpers.
+
+## VI. Test Execution & Makefile Integration
+
+1.  **Dedicated Targets:** Both unit and E2E tests MUST be runnable via dedicated Makefile targets.
+    *   `make test-unit`: MUST run ONLY unit tests.
+    *   `make test-e2e`: MUST run ONLY E2E tests. This target MUST require Docker (e.g., via Docker Compose).
+
+2.  **Comprehensive Check Target:**
+    *   The `make check` target MUST include `make test-unit` (or the direct command for running unit tests) and other checks like linting as specified in `.windsurf/rules/project_standards.md` or language-specific guidelines.
+
+3.  **Task/PRD Completion Criteria:**
+    *   Any task, feature, or PRD is ONLY considered 'Done' or complete when, in addition to other functional criteria, ALL relevant testing requirements outlined in this document (Section I.1. Test Integrity) are met. This typically means all associated automated tests (unit, integration, E2E as applicable to the scope of work) are passing.

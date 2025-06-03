@@ -1,0 +1,47 @@
+---
+title: Testing Fundamentals and TDD
+description: Core testing principles, quality gates, and Test-Driven Development (TDD) mandate.
+tags: [testing, quality-assurance, tdd, development-process, fundamentals]
+globs: []
+alwaysApply: true
+---
+# Testing Guidelines
+
+This document MANDATES project-wide testing guidelines. AI Agents MUST ALWAYS adhere to these rules when developing, modifying, or interacting with tests. These guidelines apply across all workflows (PRD-driven, task-based, etc.) unless explicitly overridden by a more specific, active rule for a particular context.
+
+Refer to language-specific guidelines (e.g., `.cursor/rules/go_guideline.mdc`) for additional, language-focused testing rules.
+
+## I. General Testing Principles & Quality Gates
+
+1.  **Test Integrity (Universal Requirement):**
+    *   Ensure all relevant tests pass before EVERY commit.
+    *   Ensure all relevant tests pass before marking ANY task or Product Requirements Document (PRD) as 'Done' or complete. This is a critical quality gate.
+    *   AI Agent MUST NEVER commit code UNLESS it has been verified by ALL relevant checks (compilation, linters, unit tests, E2E tests as applicable).
+    *   The `make check` command (or equivalent) is the primary pre-commit check. It MUST pass successfully for ALL changes. `make check` MUST include compilation, linting, and unit tests. For Go projects, it should not require Docker.
+    *   Specific workflows (e.g., PRD completion) may mandate additional checks like passing E2E tests before final completion.
+
+2.  **Test Coverage:**
+    *   Tests MUST ADEQUATELY cover requirements as defined in the relevant Product Requirements Document (PRD) or requirements specification.
+    *   For functional requirements, corresponding test scenarios MUST be documented (e.g., in `docs/scenarios.md` for older workflows, or implicitly by PRD acceptance criteria).
+    *   These scenarios serve as a MANDATORY checklist for test coverage.
+    *   AI Agent MUST ALWAYS verify E2E test coverage when implementing or modifying E2E tests related to a requirement.
+
+3.  **Post-Test File Change Protocol:**
+    *   After ANY change to test files (add, refactor, modify), AI Agent MUST run `make check` (or equivalent).
+    *   AI Agent MUST PROCEED with further development or commits only if all tests pass and quality standards are met.
+
+4.  **Proactive Checks:**
+    *   AI Agent MUST ALWAYS proactively perform checks (compile, lint, test) during development iterations, not just before commits.
+
+## II. Test-Driven Development (TDD)
+
+1.  **TDD Mandate:**
+    *   AI Agent MUST ALWAYS write tests *before* writing implementation code.
+    *   AI Agent MUST apply TDD principles for EVERY task or functional unit of work.
+    *   If TDD is not applicable for a specific situation (rare), AI Agent MUST explicitly state the rationale.
+
+2.  **TDD Cycle (MANDATORY):**
+    1.  Create a minimal code stub (e.g., empty function/struct).
+    2.  Write a unit test against the stub (this test MUST initially fail).
+    3.  Implement the necessary logic to make the test pass.
+    *   TDD is a development methodology, not just a testing strategy. It ensures tests validate intended functionality from the start.

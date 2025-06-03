@@ -1,46 +1,6 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+trigger: always_on
 ---
-# Project Overview & Workflow
-
-This document MANDATES project overview and workflow rules. AI Agents MUST ALWAYS adhere to these rules.
-This is a Go project.
-
-## Documentation
-1.  AI Agent MUST ALWAYS consult and adhere to:
-    *   `.cursor/rules/prd_workflow.mdc` for understanding PRD-driven development, including processing PRDs, breaking them into tasks, and managing implementation.
-    *   `.cursor/rules/testing_guidelines.mdc` for all general and specific testing methodologies, requirements, and practices.
-    *   The specific **Product Requirements Document (PRD)** for the feature being worked on (e.g., `prds/[feature_name]/[feature_name]_prd.md`) for all requirements, user stories, and acceptance criteria.
-    *   The associated **Task Tracking** file for that PRD (e.g., `prds/[feature_name]/[feature_name]_prd_task_tracking.md`) for task details and status.
-2.  **Decisions:** AI Agent MUST document ALL significant architectural or design decisions incrementally in `docs/decisions.md`, including rationale.
-3.  **README:** AI Agent MUST keep `README.md` up-to-date with essential project information (setup, build, usage).
-4.  **Date/Time in Documentation:** AI Agent MUST obtain current date/time for ANY documentation via command line (e.g., `date +%Y-%m-%d`).
-5.  **Project Structure Document:** AI Agent MUST use `docs/project_structure.md` for understanding project structure, and ensure it aligns with the PRD-based organization.
-6.  **Learnings Document:** AI Agent MUST record ALL mistakes and resolutions in `docs/learnings.md`.
-
-## Quality Assurance & Workflow
-1.  **Pre-commit Checks:** AI Agent MUST NEVER commit code UNLESS it has passed ALL checks mandated by `.cursor/rules/testing_guidelines.mdc` (typically executed via `make check` or equivalent). This includes, but is not limited to, compilation, linting, and all relevant automated tests (unit, integration, E2E as applicable).
-2.  **Makefile Targets for Tools:** ALL essential development tools (e.g., `sqlc`, `migrate`, linters, test runners) MUST have corresponding targets in the main `Makefile`, consistent with `.cursor/rules/testing_guidelines.mdc`.
-3.  **Task Completion & Version Control:** AI Agent MUST follow task completion, progress reporting, and version control guidelines as implied or stated in `prd_workflow.mdc` and the associated task tracking file for the PRD, ensuring all testing requirements from `.cursor/rules/testing_guidelines.mdc` are met before marking tasks/PRDs as done.
-
-## AI Assistant (You) Responsibilities
-- AI Agent MUST ADHERE to ALL guidelines herein without explicit reminder.
-- **Initial Context:** At request start, AI Agent MUST CONFIRM project root (main `Makefile` dir), current date (e.g., via `date +%Y-%m-%d`), and current Git branch (e.g., via `git rev-parse --abbrev-ref HEAD`).
-- **Documentation Awareness:** When performing tasks, AI Agent MUST ensure all relevant documentation (as specified in the 'Documentation' section, the active PRD, its task tracker, `prd_workflow.mdc`, and `testing_guidelines.mdc`) is considered and updated as necessary.
-- **Task Processing:** AI Agent MUST follow `.cursor/rules/prd_workflow.mdc` and the task details within the specific PRD's task tracking file (e.g., `prds/[feature_name]/[feature_name]_prd_task_tracking.md`).
-- **Requirements/Scenarios:** AI Agent MUST derive all requirements, user stories, and acceptance criteria directly from the active **PRD** (e.g., `prds/[feature_name]/[feature_name]_prd.md`).
-- **File Not Found Error:** If a path error occurs, AI Agent MUST: 1) attempt to determine current working directory (e.g., `pwd`), 2) consult `docs/project_structure.md` (which should reflect the PRD structure), 3) retry the operation if understanding is gained, or report the error with context.
-- **Clarify Ambiguity**: If requirements (within the PRD) or technical terms are ambiguous (allowing multiple interpretations, or choice of libraries/patterns), AI Agent MUST explicitly CONFIRM the intended approach with the user.
-- **Mistake Logging (`docs/learnings.md`):**
-    1.  Acknowledge the mistake.
-    2.  Document the mistake in `docs/learnings.md` (detailing what went wrong).
-    3.  After correction, UPDATE `docs/learnings.md` with the resolution and lesson learned.
-- **Problem Solving Strategy:** If stuck on a task (e.g., tool limitations, persistent errors):
-    1.  Re-consult all relevant project guidelines and documentation (`.mdc` files, active PRD, task tracker, `docs/` folder).
-    2.  If guidelines do not provide a path forward, perform a web search for potential solutions or workarounds. Prefix search queries with "cursor ai" to tailor results (e.g., "cursor ai golang edit_file not applying changes").
-    3.  If still unable to resolve, clearly document the issue, attempted steps, and why progress is blocked, then await user guidance.
 
 ## File Editing & Patch Management (AI Agent)
 1.  **Direct File Modification (`edit_file` tool):**

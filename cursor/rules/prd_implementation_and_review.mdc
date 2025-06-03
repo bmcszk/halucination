@@ -1,0 +1,53 @@
+---
+title: PRD Implementation and Review Workflow
+description: Guidelines for the implementation, review, and post-merge phases of a PRD-driven workflow, including iterative development and AI conduct.
+tags: [prd, workflow, implementation, review, git, development-process, ai-conduct]
+globs: []
+alwaysApply: true
+---
+
+**Phase 4: Iterative Implementation and Delivery (Per Task on Feature Branch)**
+
+7. **Process Tasks (Sequentially or as Prioritized):**
+    *   Tasks should generally be processed in the order they appear in the task tracker, unless dependencies or user prioritization dictates otherwise.
+    *   **Handling Blocked Tasks:** If a task becomes 'Blocked', move to the next available 'Todo' task. AI Agent WILL revisit 'Blocked' tasks after all other 'Todo' and 'In Progress' tasks have been addressed, or when the blocking condition is resolved.
+    For each task:
+    *   Announce task start (e.g., "Starting Task T[X]: [Description] from `[feature_name]_prd_task_tracking.md` on branch `feature/[feature-name-slug]`)."
+    *   **Code Generation:** Adhere to `project_standards.mdc`, coding styles, and best practices.
+    *   **Test Generation:** Follow the project's testing guidelines (see `testing_*.mdc` files) (cover functionality, meet acceptance criteria, all relevant tests pass).
+    *   **Code Documentation:** Add clear comments where purpose isn't obvious.
+    *   **Commit Work:** When task/sub-part is complete and ALL testing requirements from the project's testing guidelines (see `testing_*.mdc` files) are met, suggest commit. Adhere to `git_guidelines.mdc` for commit message formulation and process.
+    *   **Update Task Tracker:** Mark task 'In Progress' then 'Done' (post-implementation, passing tests per the project's testing guidelines (see `testing_*.mdc` files), and commit). Add notes.
+
+8.  **Project Documentation Updates (As Needed):**
+    *   Note/draft updates to `README.md` or other project docs for significant changes.
+
+**Phase 5: Review, Feedback, and Iteration (Leading to Pull/Merge Request)**
+
+9.  **Prepare for Pull/Merge Request (PR/MR):**
+    *   When all tasks are 'Completed' and all testing requirements from the project's testing guidelines (see `testing_*.mdc` files) are met for the branch, inform user.
+    *   Follow the process outlined in `git_guidelines.mdc` for PR/MR preparation, creation (including `gh` tool usage if applicable), and description drafting.
+
+10. **Assist with PR/MR Description:**
+    *   **Instruction:** Offer to draft PR/MR description (summary, PRD link, task link/summary, decision log refs).
+    *   Provide draft to user.
+
+11. **Post-Review Feedback Loop:**
+    *   If PR/MR review yields feedback: Re-open/create tasks, make changes on branch (per step 7), update user.
+
+**Phase 6: Post-Merge Activities**
+
+12. **Post-Merge Documentation Updates:**
+    *   Remind user post-merge:
+        *   Branch merged.
+        *   **Update PRD Status:** The PRD document itself (e.g., `prds/[feature_name]/[feature_name]_prd.md`) MUST be updated to reflect its current status (e.g., 'In Progress' during development, 'In Review' during PR/MR, 'Implemented' post-merge, 'Done'). The 'Done' status is only applicable if all requirements and acceptance criteria are met, and all associated testing (per the project's testing guidelines, see `testing_*.mdc` files) has passed.
+        *   Ensure task tracker tasks are closed, adhering to completion criteria in the project's testing guidelines (see `testing_*.mdc` files).
+    *   Discuss follow-up (deployment, QA).
+
+**General AI Conduct Throughout the Workflow:**
+
+*   **Adherence to Guidelines:** Always follow `project_standards.mdc` and the project's testing guidelines (see `testing_*.mdc` files).
+*   **Proactive Communication:** Keep user informed (progress, assumptions, issues).
+*   **Clarity and Maintainability:** Strive for this in generated code.
+*   **Large PRDs:** Discuss if a large PRD needs breaking into multiple PRDs/branches.
+*   **Assumption Handling:** Clearly state assumptions and seek confirmation.

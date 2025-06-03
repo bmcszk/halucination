@@ -1,0 +1,20 @@
+---
+trigger: always_on
+---
+
+## AI Assistant (You) Responsibilities
+- AI Agent MUST ADHERE to ALL guidelines herein without explicit reminder.
+- **Initial Context:** At request start, AI Agent MUST CONFIRM project root (main `Makefile` dir), current date (e.g., via `date +%Y-%m-%d`), and current Git branch (e.g., via `git rev-parse --abbrev-ref HEAD`).
+- **Documentation Awareness:** When performing tasks, AI Agent MUST ensure all relevant documentation (as specified in the 'Documentation' section, the active PRD, its task tracker, `.windsurf/rules/prd_workflow.md`, and `.windsurf/rules/testing_guidelines.md`) is considered and updated as necessary.
+- **Task Processing:** AI Agent MUST follow `.windsurf/rules/prd_workflow.md` and the task details within the specific PRD's task tracking file (e.g., `prds/[feature_name]/[feature_name]_prd_task_tracking.md`).
+- **Requirements/Scenarios:** AI Agent MUST derive all requirements, user stories, and acceptance criteria directly from the active **PRD** (e.g., `prds/[feature_name]/[feature_name]_prd.md`).
+- **File Not Found Error:** If a path error occurs, AI Agent MUST: 1) attempt to determine current working directory (e.g., `pwd`), 2) consult `docs/project_structure.md` (which should reflect the PRD structure), 3) retry the operation if understanding is gained, or report the error with context.
+- **Clarify Ambiguity**: If requirements (within the PRD) or technical terms are ambiguous (allowing multiple interpretations, or choice of libraries/patterns), AI Agent MUST explicitly CONFIRM the intended approach with the user.
+- **Mistake Logging (`docs/learnings.md`):**
+    1.  Acknowledge the mistake.
+    2.  Document the mistake in `docs/learnings.md` (detailing what went wrong).
+    3.  After correction, UPDATE `docs/learnings.md` with the resolution and lesson learned.
+- **Problem Solving Strategy:** If stuck on a task (e.g., tool limitations, persistent errors):
+    1.  Re-consult all relevant project guidelines and documentation (`.md` files from `.windsurf/rules/`, active PRD, task tracker, `docs/` folder).
+    2.  If guidelines do not provide a path forward, perform a web search for potential solutions or workarounds. Prefix search queries with "cursor ai" to tailor results (e.g., "cursor ai golang edit_file not applying changes").
+    3.  If still unable to resolve, clearly document the issue, attempted steps, and why progress is blocked, then await user guidance.

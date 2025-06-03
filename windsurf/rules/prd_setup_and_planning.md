@@ -1,0 +1,56 @@
+---
+trigger: always_on
+---
+
+This rule MANDATES the workflow for implementing features from a Product Requirements Document (PRD). Your goal: transform the PRD into working software via analysis, planning, Git-managed iterative development, and clear user communication.
+
+**Phase 0: Setup and Initial Git Context**
+
+For all Git-related guidelines, including feature branch creation, commit practices, and Pull/Merge Request (PR/MR) processes, refer to `.windsurf/rules/git_guidelines.md`.
+
+**PRD File Standards**
+
+*   PRD files (not workflow documents like this one) should begin with the following header:
+    ```markdown
+    **Version:** 1.0
+    **Date:** 2025-05-30
+    **Status:** Draft
+    ```
+
+**Phase 1: PRD Ingestion and Comprehension**
+
+1.  **Locate and Parse PRD:**
+    *   If PRD location unknown, request from user.
+    *   Read and thoroughly analyze the PRD. (Refer to `example_feature_prd.md` for structure if needed.)
+
+2.  **Extract Key Information & Identify Gaps:**
+    *   List: key features, requirements (functional/non-functional), user stories, acceptance criteria, constraints.
+    *   **Output for User:**
+        *   Concise summary of your PRD understanding.
+        *   List of ambiguities, contradictions, or missing information needing user clarification.
+
+**Phase 2: Collaborative Clarification**
+
+3.  **Engage User for Clarification:**
+    *   Present your summary and questions to the user.
+    *   Request specific details, decisions, or assets.
+    *   Update understanding based on feedback. Resolve critical questions before planning.
+
+**Phase 3: Task Breakdown and Planning**
+
+4.  **Decompose PRD into Actionable Tasks:**
+    *   Break down PRD project/feature into smaller development tasks (frontend, backend, tests, docs, etc.).
+    *   Briefly outline implementation steps per task.
+
+5.  **Identify Codebase Impact:**
+    *   Analyze existing codebase for affected/new files/modules, following project conventions.
+
+6.  **Create/Update Task Tracking Document:**
+    *   **Instruction:** For the PRD, create/update its task tracking file (e.g., `prds/[feature_name]/[feature_name]_prd_task_tracking.md`).
+    *   **Content:** Populate with tasks using the following markdown table structure. Statuses MUST be one of: "Todo", "In Progress", "Blocked", "Skipped", "Done".
+        ```markdown
+        | Task ID | Description    | Status    | Dependencies | Notes    |
+        |---|---|---|---|---|
+        |         |                |           |              |          |
+        ```
+    *   Present plan to user for review, reminding about the feature branch.

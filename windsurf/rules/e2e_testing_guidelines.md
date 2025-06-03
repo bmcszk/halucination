@@ -1,0 +1,24 @@
+---
+trigger: always_on
+---
+
+## IV. End-to-End (E2E) / Integration Tests
+
+1.  **Purpose & Scope:**
+    *   E2E/Integration tests MUST verify system behavior as a whole or verify the interaction of integrated parts.
+    *   Build Tag (Go specific): Use `//go:build e2e` for Go E2E test files.
+
+2.  **Coverage:**
+    *   E2E tests MUST cover ALL functional requirements and acceptance criteria specified in the active PRD (or `docs/scenarios.md` for older workflows). This ensures validation of key user flows and API interactions against a realistic environment.
+
+3.  **Style & Structure:**
+    *   Tests SHOULD be written in a Behavior-Driven Development (BDD) style (e.g., Godog, or similar structured approach).
+    *   (Go specific): For cucumber-like test structure guidance without specific libraries (e.g. Godog), AI Agent MUST refer to patterns in `github.com/bmcszk/effective-monorepo/tree/feature/tilt/e2e`.
+
+4.  **Environment & Dependencies:**
+    *   E2E tests REQUIRE a running application and its dependencies (e.g., via Docker Compose).
+    *   (Go specific): For mocking 3rd party REST services during E2E tests, `unimock` (`github.com/bmcszk/unimock`) MUST be used.
+    *   (Go specific): E2E tests MUST use a separate Docker Compose file (e.g., `docker-compose.e2e.yml`) that includes the main `docker-compose.yml` and overrides for E2E specifics for isolated configuration.
+
+5.  **Location (Go specific):**
+    *   E2E tests MUST be located in the root `e2e/` directory.
