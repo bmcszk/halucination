@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Project Overview & Workflow
 
 This document MANDATES project overview and workflow rules. AI Agents MUST ALWAYS adhere to these rules.

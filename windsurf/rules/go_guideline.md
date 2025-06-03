@@ -1,3 +1,8 @@
+---
+trigger: glob
+globs: *.go, *.mod
+---
+
 # Go Development Guidelines
 
 AI Agents MUST ALWAYS adhere to these Go development guidelines. These supplement the general `.windsurf/rules/testing_guidelines.md`.

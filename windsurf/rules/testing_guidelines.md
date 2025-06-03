@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Testing Guidelines
 
 This document MANDATES project-wide testing guidelines. AI Agents MUST ALWAYS adhere to these rules when developing, modifying, or interacting with tests. These guidelines apply across all workflows (PRD-driven, task-based, etc.) unless explicitly overridden by a more specific, active rule for a particular context.

@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 This rule MANDATES the workflow for implementing features from a Product Requirements Document (PRD). Your goal: transform the PRD into working software via analysis, planning, Git-managed iterative development, and clear user communication.
 
 **Phase 0: Setup and Initial Git Context**
