@@ -12,7 +12,7 @@ AI Agents MUST ALWAYS adhere to these Go development guidelines. These supplemen
     - Interfaces MUST be defined per consumer needs (Interface Segregation Principle).
     - Interfaces MUST ONLY be created when necessary (polymorphism, testing (as detailed in `.cursor/rules/testing_guidelines.mdc`), decoupling). AI Agent MUST AVOID premature/excessive interface creation.
 - **Auto-generated Files:** AI Agent MUST NEVER apply Go rules, formatting, or refactoring to files containing "DO NOT EDIT" (or similar) comments.
-- **Service Structure (Packages):** (Refer to `go_project_setup_guideline.mdc` for full structure)
+- **Service Structure (Packages):** (Refer to `.cursor/rules/go_project_setup_guideline.mdc` for full structure)
     - `handler`: API/request handling.
     - `service`: Business logic.
     - `storage`: Data persistence.

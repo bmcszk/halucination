@@ -10,20 +10,13 @@ This document MANDATES the workflow for managing requirements and their correspo
 
 2.  **Test Scenarios File (`docs/scenarios.md`):**
     *   For EVERY requirement in `docs/requirements.md`, corresponding test scenarios (covering common and edge cases) MUST be documented in `docs/scenarios.md`.
-    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in `.windsurf/rules/testing_guidelines.md` (referenced via `.windsurf/rules/project_guidelines.md`).
+    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in the `.windsurf/rules/testing_*.md` files (referenced via `.windsurf/rules/project_guidelines.md`).
 
 ## AI Assistant Responsibilities for Requirements
 
--   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in `.windsurf/rules/testing_guidelines.md` (referenced via `.windsurf/rules/project_guidelines.md`).
+-   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in the `.windsurf/rules/testing_*.md` files (referenced via `.windsurf/rules/project_guidelines.md`).
 
 ## Git Workflow for Requirements
 
--   **Branching:**
-    -   For EVERY requirement change (new feature or fix), a new branch MUST be created from `master`.
-    -   Branch naming convention MUST be: `feature/requirement-name` or `fix/fix-name` (e.g., `feature/user-auth`, `fix/login-csrf`).
--   **Committing and Pushing:**
-    *   ALL tasks related to the requirement MUST be committed and pushed to this feature/fix branch.
-    *   AI Agent MUST follow `.windsurf/rules/task_workflow.md` for task completion and version control for individual tasks.
--   **Pull Requests:**
-    -   ONLY AFTER ALL tasks for the requirement are **Done** (or **Skipped**), AND all associated work is committed and pushed to the feature/fix branch, AI Agent MUST create a Pull Request to merge the feature/fix branch into `master`.
-    -   AI Agent MUST use the `gh pr create` command. Example: `gh pr create --base master --head your-branch --title "Feature: X" --body "Details."`. Title and body MUST be descriptive.
+-   All Git workflow activities (branching, commits, Pull/Merge Requests) related to implementing or modifying requirements MUST adhere to the comprehensive guidelines outlined in `.windsurf/rules/git_guidelines.md`.
+-   For task-specific completion and version control aspects within the scope of a requirement, AI Agent MUST also consult and follow `.windsurf/rules/task_workflow.md`.

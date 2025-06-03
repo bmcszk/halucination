@@ -9,7 +9,7 @@ This rule MANDATES the workflow for implementing features from a Product Require
 
 **Phase 0: Setup and Initial Git Context**
 
-For all Git-related guidelines, including feature branch creation, commit practices, and Pull/Merge Request (PR/MR) processes, refer to `git_guidelines.mdc`.
+For all Git-related guidelines, including feature branch creation, commit practices, and Pull/Merge Request (PR/MR) processes, refer to `.cursor/rules/git_guidelines.mdc`.
 
 **PRD File Standards**
 

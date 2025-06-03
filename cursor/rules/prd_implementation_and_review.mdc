@@ -13,10 +13,10 @@ alwaysApply: true
     *   **Handling Blocked Tasks:** If a task becomes 'Blocked', move to the next available 'Todo' task. AI Agent WILL revisit 'Blocked' tasks after all other 'Todo' and 'In Progress' tasks have been addressed, or when the blocking condition is resolved.
     For each task:
     *   Announce task start (e.g., "Starting Task T[X]: [Description] from `[feature_name]_prd_task_tracking.md` on branch `feature/[feature-name-slug]`)."
-    *   **Code Generation:** Adhere to `project_standards.mdc`, coding styles, and best practices.
+    *   **Code Generation:** Adhere to `.cursor/rules/project_standards.mdc`, coding styles, and best practices.
     *   **Test Generation:** Follow the project's testing guidelines (see `testing_*.mdc` files) (cover functionality, meet acceptance criteria, all relevant tests pass).
     *   **Code Documentation:** Add clear comments where purpose isn't obvious.
-    *   **Commit Work:** When task/sub-part is complete and ALL testing requirements from the project's testing guidelines (see `testing_*.mdc` files) are met, suggest commit. Adhere to `git_guidelines.mdc` for commit message formulation and process.
+    *   **Commit Work:** When task/sub-part is complete and ALL testing requirements from the project's testing guidelines (see `testing_*.mdc` files) are met, suggest commit. Adhere to `.cursor/rules/git_guidelines.mdc` for commit message formulation and process.
     *   **Update Task Tracker:** Mark task 'In Progress' then 'Done' (post-implementation, passing tests per the project's testing guidelines (see `testing_*.mdc` files), and commit). Add notes.
 
 8.  **Project Documentation Updates (As Needed):**
@@ -26,7 +26,7 @@ alwaysApply: true
 
 9.  **Prepare for Pull/Merge Request (PR/MR):**
     *   When all tasks are 'Completed' and all testing requirements from the project's testing guidelines (see `testing_*.mdc` files) are met for the branch, inform user.
-    *   Follow the process outlined in `git_guidelines.mdc` for PR/MR preparation, creation (including `gh` tool usage if applicable), and description drafting.
+    *   Follow the process outlined in `.cursor/rules/git_guidelines.mdc` for PR/MR preparation, creation (including `gh` tool usage if applicable), and description drafting.
 
 10. **Assist with PR/MR Description:**
     *   **Instruction:** Offer to draft PR/MR description (summary, PRD link, task link/summary, decision log refs).
@@ -46,7 +46,7 @@ alwaysApply: true
 
 **General AI Conduct Throughout the Workflow:**
 
-*   **Adherence to Guidelines:** Always follow `project_standards.mdc` and the project's testing guidelines (see `testing_*.mdc` files).
+*   **Adherence to Guidelines:** Always follow `.cursor/rules/project_standards.mdc` and the project's testing guidelines (see `testing_*.mdc` files).
 *   **Proactive Communication:** Keep user informed (progress, assumptions, issues).
 *   **Clarity and Maintainability:** Strive for this in generated code.
 *   **Large PRDs:** Discuss if a large PRD needs breaking into multiple PRDs/branches.

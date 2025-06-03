@@ -22,15 +22,22 @@ This document outlines the mandatory Git workflow, branching strategy, commit pr
     *   Work SHOULD be committed when a task or a logical sub-part of a task is complete.
     *   A commit MUST only be made when ALL testing requirements from the project's testing guidelines (see `testing_*.md` files) are met for the changes being committed.
 
-2.  **Commit Message Formulation:**
+2.  **Staging Changes:**
+    *   Before making a commit, AI Agent MUST ensure all intended changes for that commit are staged using `git add`.
+
+3.  **Commit Message Formulation:**
     *   Commit messages MUST be clear and concise.
     *   They MUST reference the relevant Task ID and/or User Story ID from the PRD's task tracking document.
     *   Example: `feat(profile): Implement user profile view (T1, US-001)`
     *   Example: `fix(auth): Correct login redirection issue (T5, US-003)`
     *   AI Agent MUST formulate such messages.
 
-3.  **Offering to Commit:**
+4.  **Offering to Commit:**
     *   AI Agent MAY offer to perform the commit if permitted by project rules and user preference; otherwise, it MUST provide the fully formulated commit message and the list of files to be committed to the user.
+
+5.  **Pushing Commits:**
+    *   Every local commit MUST be pushed to the remote repository promptly.
+    *   AI Agent SHOULD offer to push the commit(s) after they are made.
 
 ## III. Pull/Merge Request (PR/MR) Process
 

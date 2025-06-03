@@ -44,4 +44,4 @@ trigger: always_on
             *   Consider if the large file/struct can be broken down into smaller, more manageable, and independently modifiable units/files. This might be a separate preliminary task.
             *   If splitting is feasible, AI Agent SHOULD propose and (if approved or per autonomy rules) perform the split first.
         5.  **Re-attempt Task on Smaller Units:** If files were split, or if the original task can be broken into smaller, localized edits, AI Agent MUST attempt these smaller edits sequentially, verifying each with `read_file` and `make check` (if applicable) before proceeding.
-        6.  **Manual Intervention**: If automated edits on smaller chunks still fail, or if splitting is not feasible/desired, AI Agent MUST explicitly state that the task requires manual intervention due to tool limitations with the specific file/complexity.
+        6.  **Manual Intervention:**: If automated edits on smaller chunks still fail, or if splitting is not feasible/desired, AI Agent MUST explicitly state that the task requires manual intervention due to tool limitations with the specific file/complexity.

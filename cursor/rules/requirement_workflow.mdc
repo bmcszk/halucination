@@ -15,11 +15,11 @@ This document MANDATES the workflow for managing requirements and their correspo
 
 2.  **Test Scenarios File (`docs/scenarios.md`):**
     *   For EVERY requirement in `docs/requirements.md`, corresponding test scenarios (covering common and edge cases) MUST be documented in `docs/scenarios.md`.
-    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in `.cursor/rules/testing_guidelines.mdc` (referenced via `project_guidelines.mdc`).
+    *   AI Agent MUST use `docs/scenarios.md` as a MANDATORY checklist for test coverage, ensuring it aligns with overall strategies in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`).
 
 ## AI Assistant Responsibilities for Requirements
 
--   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in `.cursor/rules/testing_guidelines.mdc` (referenced via `project_guidelines.mdc`).
+-   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`) for ANY task. This INCLUDES ensuring that test scenarios defined in `docs/scenarios.md` and their coverage (e.g., through E2E tests) align with the comprehensive testing strategies and requirements detailed in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`).
 
 ## Git Workflow for Requirements
 
@@ -28,7 +28,7 @@ This document MANDATES the workflow for managing requirements and their correspo
     -   Branch naming convention MUST be: `feature/requirement-name` or `fix/fix-name` (e.g., `feature/user-auth`, `fix/login-csrf`).
 -   **Committing and Pushing:**
     *   ALL tasks related to the requirement MUST be committed and pushed to this feature/fix branch.
-    *   AI Agent MUST follow `task_workflow.mdc` for task completion and version control for individual tasks.
+    *   AI Agent MUST follow `.cursor/rules/task_workflow.mdc` for task completion and version control for individual tasks.
 -   **Pull Requests:**
     -   ONLY AFTER ALL tasks for the requirement are **Done** (or **Skipped**), AND all associated work is committed and pushed to the feature/fix branch, AI Agent MUST create a Pull Request to merge the feature/fix branch into `master`.
     -   AI Agent MUST use the `gh pr create` command. Example: `gh pr create --base master --head your-branch --title "Feature: X" --body "Details."`. Title and body MUST be descriptive.

@@ -15,7 +15,7 @@ This structure MUST be followed:
         -   `handler/`: HTTP request handlers (e.g., Chi).
         -   `service/`: Business logic.
         -   `storage/`: Data persistence (DB interactions).
-        -   `model/`: Core data structures (refer to `go_guideline.mdc`).
+        -   `model/`: Core data structures (refer to `.cursor/rules/go_guideline.mdc`).
         -   `worker/`: Background/periodic task processors.
         -   `config/`: Configuration management.
     -   `db/`: Database assets.
@@ -53,10 +53,10 @@ The following tools and libraries MUST be used as specified:
 These targets MUST exist in the root `Makefile`. Their testing-related aspects MUST align with `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`.
 -   `build`: Compile the project.
 -   `run`: Run the project locally.
--   `lint`: Run `golangci-lint run` (as specified in `go_guideline.mdc`).
--   `test-unit`: Run unit tests ONLY (as defined in `testing_guidelines.mdc` and `go_guideline.mdc`).
--   `test-e2e`: Run E2E tests ONLY (as defined in `testing_guidelines.mdc` and `go_guideline.mdc`).
--   `check`: Pre-commit checks (MUST include items from `go_guideline.mdc` and meet all requirements of `testing_guidelines.mdc`).
+-   `lint`: Run `golangci-lint run` (as specified in `.cursor/rules/go_guideline.mdc`).
+-   `test-unit`: Run unit tests ONLY (as defined in `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`).
+-   `test-e2e`: Run E2E tests ONLY (as defined in `.cursor/rules/testing_guidelines.mdc` and `.cursor/rules/go_guideline.mdc`).
+-   `check`: Pre-commit checks (MUST include items from `.cursor/rules/go_guideline.mdc` and meet all requirements of `.cursor/rules/testing_guidelines.mdc`).
 -   `sqlc`: Generate SQLC code.
 -   `migrate-up`/`migrate-down`: Manual DB migration control.
 -   `docker-build`: Build Docker image.
@@ -73,7 +73,7 @@ Refer to `.cursor/rules/testing_guidelines.mdc` for overall testing strategy and
 
 ## 6. AI Assistant Guidelines
 -   AI Agent rules (MDC files) MUST be stored in `.cursor/rules/`.
--   AI Agent MUST manage tasks via `docs/tasks.md` (see `task_workflow.mdc`).
+-   AI Agent MUST manage tasks via `docs/tasks.md` (see `.cursor/rules/task_workflow.mdc`).
 
 ## 7. Service Health Checks (Mandatory)
 -   Liveness (`/healthz/live`) and readiness (`/healthz/ready`) probes MUST be implemented.

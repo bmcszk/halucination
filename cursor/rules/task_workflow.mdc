@@ -23,7 +23,7 @@ This document MANDATES the workflow for task creation, management, and completio
 2.  **Update Task Status:** Before commencing work, AI Agent MUST update the task's status to **In Progress** in `docs/tasks.md`.
 3.  **Task Execution:**
     *   AI Agent MUST ALWAYS consider and update ALL relevant documentation (`docs/requirements.md`, `docs/scenarios.md`, `docs/tasks.md`, `docs/decisions.md`, `README.md`, `docs/project_structure.md`, `docs/learnings.md`).
-    *   AI Agent MUST adhere to TDD and proactive checking principles outlined in `.cursor/rules/testing_guidelines.mdc` (referenced via `project_guidelines.mdc`).
+    *   AI Agent MUST adhere to TDD and proactive checking principles outlined in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`).
     *   **`edit_file` Tool Protocol:**
         *   AI Agent MUST exercise caution with `edit_file` for full-file replacements or large-scale markdown changes (e.g., `docs/tasks.md`).
         *   If `edit_file` reports issues or fails to apply changes correctly, AI Agent MUST verify the actual file state.
@@ -36,7 +36,7 @@ This document MANDATES the workflow for task creation, management, and completio
 4.  **Task Completion Criteria:** A task is ONLY considered **Done** when ALL the following conditions are met:
     *   ALL code changes are implemented.
     *   ALL functional requirements are met.
-    *   ALL testing requirements specified in `.cursor/rules/testing_guidelines.mdc` (referenced via `project_guidelines.mdc`) are satisfied for the task's changes.
+    *   ALL testing requirements specified in `.cursor/rules/testing_guidelines.mdc` (referenced via `.cursor/rules/project_guidelines.mdc`) are satisfied for the task's changes.
     *   The task is marked as **Done** in `docs/tasks.md`.
 5.  **Post-Completion:**
     *   After successfully committing and pushing changes for a **Done** task, AI Agent MUST immediately process the next **ToDo** task from `docs/tasks.md`.
@@ -48,4 +48,4 @@ This document MANDATES the workflow for task creation, management, and completio
     *   AI Agent MUST ensure ALL changed and new files for the task are staged for commit.
     *   AI Agent MUST then propose a Git commit. Commit message MUST follow: `[TASK-ID] Short descriptive title`.
     *   After successful commit, AI Agent MUST propose a Git push to the current branch.
-2.  AI Agent MUST frequently push other working changes (even for tasks not fully **Done**) to the remote repository, ONLY AFTER ensuring they pass pre-commit checks (as defined in `.cursor/rules/testing_guidelines.mdc` via `project_guidelines.mdc`) and are committed. This is MANDATORY for work on feature/fix branches (see `requirement_workflow.mdc`).
+2.  AI Agent MUST frequently push other working changes (even for tasks not fully **Done**) to the remote repository, ONLY AFTER ensuring they pass pre-commit checks (as defined in `.cursor/rules/testing_guidelines.mdc` via `.cursor/rules/project_guidelines.mdc`) and are committed. This is MANDATORY for work on feature/fix branches (see `.cursor/rules/requirement_workflow.mdc`).
