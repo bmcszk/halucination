@@ -14,6 +14,7 @@ alwaysApply: true
 - **Requirements/Scenarios:** AI Agent MUST derive all requirements, user stories, and acceptance criteria directly from the active **PRD** (e.g., `prds/[feature_name]/[feature_name]_prd.md`).
 - **File Not Found Error:** If a path error occurs, AI Agent MUST: 1) attempt to determine current working directory (e.g., `pwd`), 2) consult `docs/project_structure.md` (which should reflect the PRD structure), 3) retry the operation if understanding is gained, or report the error with context.
 - **Clarify Ambiguity:** if requirements (within the PRD) or technical terms are ambiguous (allowing multiple interpretations, or choice of libraries/patterns), AI Agent MUST explicitly CONFIRM the intended approach with the user.
+- **Truncated Command Output:** If a command's output appears truncated, AI Agent MUST re-run the command redirecting its output to a temporary file, and then analyze the contents of that file to obtain the full output.
 - **Mistake Logging (`docs/learnings.md`):**
     1.  Acknowledge the mistake.
     2.  Document the mistake in `docs/learnings.md` (detailing what went wrong).
