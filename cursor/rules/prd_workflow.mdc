@@ -1,11 +1,16 @@
 ---
 title: PRD Workflow Guidelines
 category: Workflow
+tags: [workflow, prd, task-management, pre-flight-check, make-check, quality-assurance]
+alwaysApply: true
 ---
 
-## Starting Work: PRD and Task Identification from Branch
+## Starting Work: Initial Checks and PRD Identification
 
 When the AI Agent begins a work session or switches to a new primary task:
-1.  The Agent MUST attempt to identify the relevant Product Requirements Document (PRD) by analyzing the current Git branch name. (e.g., a branch named `feature/XYZ-123-description` would point to PRD `XYZ-123`).
-2.  If a PRD is identified, the Agent MUST navigate to the corresponding PRD directory (e.g., `prds/XYZ-123/`).
-3.  The Agent MUST then review the tasks outlined within that PRD and prioritize them for execution based on their status and dependencies.
+1.  **Pre-flight Check:** The Agent MUST ensure the project's health by running `make check` (or an equivalent comprehensive check command for the project).
+    *   If `make check` fails, the Agent MUST prioritize fixing any reported issues (linting errors, failing tests, build problems, etc.) *before* proceeding to PRD/task work.
+    *   The goal is to start work from a clean, stable baseline.
+2.  **PRD Identification:** The Agent MUST attempt to identify the relevant Product Requirements Document (PRD) by analyzing the current Git branch name. (e.g., a branch named `feature/XYZ-123-description` would point to PRD `XYZ-123`).
+3.  **PRD Navigation:** If a PRD is identified, the Agent MUST navigate to the corresponding PRD directory (e.g., `prds/XYZ-123/`).
+4.  **Task Review & Prioritization:** The Agent MUST then review the tasks outlined within that PRD and prioritize them for execution based on their status and dependencies.
