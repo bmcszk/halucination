@@ -24,3 +24,8 @@ This is a Go project.
 2.  **Makefile Targets for Tools:** ALL essential development tools (e.g., `sqlc`, `migrate`, linters, test runners) MUST have corresponding targets in the main `Makefile`, consistent with `.windsurf/rules/testing_*.md`.
 3.  **Task Completion & Version Control:** AI Agent MUST follow task completion and progress reporting guidelines as implied or stated in `.windsurf/rules/prd_setup_and_planning.md`, `.windsurf/rules/prd_implementation_and_review.md`, and the associated task tracking file for the PRD. For all version control (Git) guidelines, refer to `.windsurf/rules/git_guidelines.md`. Ensure all testing requirements from the `.windsurf/rules/testing_*.md` files are met before marking tasks/PRDs as done.
 4.  **Maximum File Size:** AI Agent MUST ensure that any source code file (including test files) does not exceed 1000 lines. If this limit is reached or crossed, the code MUST be refactored by splitting it into smaller, more manageable files.
+5.  **Function Size and Structure:** To promote readability, maintainability, and testability:
+    *   Functions SHOULD NOT exceed 100 lines of code (LoC), including comments and blank lines within the function body.
+    *   If a function grows beyond this limit, it MUST be refactored into smaller, more focused functions.
+    *   When splitting functions, prioritize logical cohesion and clear naming for the new, smaller functions.
+    *   The primary goal of this refactoring is to improve code clarity and ease of understanding, not just to meet a line count.
