@@ -25,7 +25,6 @@ alwaysApply: true
 
 ## VII. Role of Interfaces in Testing (Go specific)
 *   Interfaces MUST ONLY be created when necessary for reasons including (but not limited to) enabling effective **testing** (e.g., by allowing mocks/stubs for dependencies). Avoid premature/excessive interface creation.
-
 ## Test Case Granularity: Positive and Negative Scenarios
 
 To ensure clarity and focused testing:
