@@ -30,6 +30,7 @@ This document outlines the mandatory Git workflow, branching strategy, commit pr
     *   They MUST reference the relevant Task ID and/or User Story ID from the PRD's task tracking document.
     *   Example: `feat(profile): Implement user profile view (T1, US-001)`
     *   Example: `fix(auth): Correct login redirection issue (T5, US-003)`
+    *   **Special Characters:** AI Agent MUST ensure commit messages are properly escaped if they contain special characters (e.g., single quotes, backticks) that could be misinterpreted by the shell when constructing `git commit -m "..."` commands. If complex escaping is problematic, simplify the message.
     *   AI Agent MUST formulate such messages.
 
 4.  **Offering to Commit:**
@@ -64,3 +65,17 @@ This document outlines the mandatory Git workflow, branching strategy, commit pr
 1.  **Branch Merged Confirmation:**
     *   After the PR/MR is successfully merged, the AI Agent SHOULD acknowledge this (e.g., "The feature branch `feature/[feature-name-slug]` has been merged.").
     *   Subsequent activities like updating PRD status are covered in `.windsurf/rules/prd_implementation_and_review.md`.
+
+## V. File Restoration and Troubleshooting
+
+1.  **Restoring Modified Tracked Files:**
+    *   To discard uncommitted changes to a *tracked* file and revert it to its last committed state (HEAD), AI Agent MUST use `git checkout -- <file_path>`.
+
+2.  **Handling Untracked Files:**
+    *   `git checkout -- <file_path>` WILL FAIL for *untracked* files (e.g., newly created files not yet staged or committed) with a `pathspec` error.
+    *   AI Agent MUST verify if a file is tracked (e.g., using `git ls-files <file_path>` which outputs the path if tracked, or nothing if untracked; or `git status`) before attempting `git checkout --`.
+    *   To discard an untracked file, AI Agent MUST use `rm <file_path>` (or equivalent OS command).
+
+3.  **Corrupted Staging Area or Index:**
+    *   If the Git staging area (index) becomes corrupted or shows unexpected behavior, AI Agent MAY suggest `git reset` (without paths) to unstage all changes, followed by careful re-staging of desired files.
+    *   For more severe corruption, consulting Git documentation or seeking user guidance is advised.
